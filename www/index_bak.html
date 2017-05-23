@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<!-- Designed and developed by Business Solution Apps team -->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>mReporting</title>
+		
+		<link rel="stylesheet" href="static/c.min.css" />
+		<link rel="stylesheet" href="static/jquery.mobile.icons.min.css" />
+		<link rel="stylesheet" href="static/jquery.mobile-1.4.5.min.css" />
+        
+		<script src="static/jquery-2.1.3.min.js">   </script>
+        <script src="static/jquery.mobile-1.4.5.min.js">   </script>
+		<script src="static/survey.js"></script>		
+    
+	
+
+	<style>
+	table.tbl_preview tr td { border:1px solid #5FAFAF; background-color:#EFF8F8;}
+	
+	.market {
+		font-size:16px;
+		color:#009191;
+		font-weight:600;
+   	 
+	}
+	.visit_client {
+		font-size:16px;
+		color:#009191;
+		font-weight:600;
+   	 
+	}
+	
+	</style>
+	</head>
+
+	
+    <body>
+	
+		<!-- =====================Home page=============== -->
+		<div data-theme="c" data-role="page" id="pageHome">
+			<div data-role="panel" id="routePanel" data-display="overlay" style="width:60%; background-color:#FFF">
+				<div align="center">
+                <img src="cloud_menu_1.png">
+                <br>
+				</div>
+                
+				<br><br><br><br>
+                
+				<ul data-role="listview">                    
+                    <br><br>
+                    <div style="background:#008A8A; height:1px"></div>
+                    <li ><div align="center" ><a href="#login" ><img src="sync.png"></a></div></li> 
+                    <div style="background:#008A8A; height:1px"></div>
+                </ul>
+                
+				<div style="margin:100%;"></div>
+			</div><!-- /panel -->
+			
+            <div data-theme="c" data-role="header" data-position="fixed" >			
+				<a  data-role="button" href="#routePanel" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+                <a  data-role="button" onClick="exit();" class="ui-btn-right" style="padding:4px;"><img src="exit.png" style="height:25px; width:25px;"></a>
+                
+               
+                <h3>mReporting</h3>
+            </div>
+            
+			<img style="width:100%;"  src="images_2.jpg">
+            <div data-role="content">
+				
+				<div id="myerror" style="color:#C00;">		
+				
+				
+				</div>
+				
+				
+				<div id="menu_show" >
+				
+				</div>
+                </div>	
+            </div>
+		
+
+	        <!--===================== pageSync ==================-->
+		<div data-theme="c" data-role="page" id="login">
+            <div data-theme="c" data-role="header" data-position="fixed">				
+				<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"> </a>
+                <h3>Authorization</h3>
+            </div>
+			
+            <div data-role="content">
+            	<div id="error_login" style="color:#C00"></div>                
+                    <form>		
+						<input name="cid" id="cid"  type="text" placeholder="CID" value="">			
+                        <input name="user_id" id="user_id"   type="text" placeholder="User ID" value="">
+                        <input type="number" name="user_pass" id="user_pass"  placeholder="Password" value="">
+                    </form>						
+				
+				<a data-role="button" id="loginButton" onClick="check_user();" >Sync</a>
+				<div align="center"><img id="wait_image_login" style="" width="50px;" src="loading.gif" alt=""></div>
+                                
+                <br><br><br><br><br><br><br><br><br><br>
+                
+                <br><br><br><br><br><br>
+                <div  style="color:#CCCCCC"    align="right">build20150504b</div>    
+            </div>
+			
+        <!-- ==========footer====== -->	
+        
+        </div>		
+
+
+    
+<!--=====================Unschedule Market==================-->
+		<div data-theme="c" data-role="page" id="page_market">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Market</h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Visit > Market</font></div><br>
+				
+			
+				<div id="err_market_next" style="color:#C00"></div> 
+                				
+				<div id="ret_cat">
+				 <select id="catCombo" width="60%" data-native-menu="false">
+                <option value="" >Category</option>
+                </select>
+				</div>
+                <input id="unschedule_market_combo_id" data-type="search"  placeholder="Search">
+				
+                <ul id="unschedule_market_combo_id_lv" data-role="listview" data-filter="true" data-input="#unschedule_market_combo_id" data-inset="true" >
+                </ul>
+                
+                
+                
+                <br/><br/>
+                <div align="center"><img id="wait_image_unschedule_market" style="" width="50px;" src="loading.gif" alt=""></div>
+                    
+                    
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+
+         
+<!--=====================Unschedule: market retailer Page==================-->
+		<div data-theme="c" data-role="page" id="page_market_ret">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3><div id="d_visit"> Chemist</div></h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div id="v_path" ><font style="font-weight:bold; font-size:13px; color:#666">Visit > Market > Chemist</font></div><br>
+				
+			
+				<div id="err_m_retailer_next" style="color:#C00"></div>
+				<!--<div><span class="market"></span></div>  -->
+                <div><span class="market" ></span></div>   
+
+				<br/>
+                
+				
+                <input id="unscheduled_m_client_combo_id" data-type="search" placeholder="Search"> 				
+                <ul id="unscheduled_m_client_combo_id_lv" data-role="listview" data-filter="true" data-input="#unscheduled_m_client_combo_id" data-inset="true" >
+                </ul>
+                
+				
+                <div align="center">
+                <img id="wait_image_ret" style="width:50px" src="loading.gif" alt="">
+               </div>
+                <br>
+				<br>
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+		 </div><!--/page-->
+			
+
+
+<!--=====================client profile: Market Page==================-->
+		<div data-theme="c" data-role="page" id="page_market_clprofile">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Market</h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Profile > Market</font></div><br>
+				
+				<div id="err_market_next_cp" style="color:#C00"></div>
+                
+
+                
+              <!-- List Test -------------------->
+			  	 <select id="catCombo_profile" width="60%" data-native-menu="false">
+                <option value="" >Category</option>
+                </select>
+                <br/><br/>
+                <input id="profile_market_cmb_id" data-type="search"  placeholder="Search"> 
+				
+                <ul id="profile_market_cmb_id_lv" data-role="listview" data-filter="true" data-input="#profile_market_cmb_id" data-inset="true">
+                </ul>
+                
+                <!-- List ---->
+                
+                <br/><br/>
+                
+                <div align="center"><img id="wait_image_profile_market" style="" width="50px;" src="loading.gif" alt=""></div>
+				
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+<!--=====================client profile: retailer Page==================-->
+		<div data-theme="c" data-role="page" id="page_market_ret_cprofile">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Chemist</h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div ><font style="font-weight:bold; font-size:13px; color:#666">Profile > Market > Chemist</font></div><br>
+				
+                
+				<div id="err_m_retailer_next_cp" style="color:#C00"></div>
+				                
+                <table width="100%" style="background-color:#F2F2F2;">
+                	<tr>
+                    <td style="text-align:left"><div align="left">Market :<span class="market"></span></div></td>
+                    <td style="text-align:right"></td>
+                    </tr>
+                </table>
+                
+         
+                	
+				<br/>
+                
+        
+								
+                <!-- List view-------------------->
+                <input  id="profile_client_id" data-type="search" placeholder="Search">		
+                <ul id="profile_client_id_lv" data-role="listview" data-filter="true" data-input="#profile_client_id" data-inset="true">
+                </ul>                
+                <!-- List ---->
+                
+				
+                
+                <div align="center"><img id="wait_image_profile_market_ret" style="" width="50px;" src="loading.gif" alt=""></div>
+				
+                 
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+			
+		 </div><!--/page-->
+         
+<!--=====================market retailer Page Map View==================-->
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDu--SRHoHCMbwyIhDv29b_uTHkTa6sh3o&sensor=true&region=BD"></script>
+
+        
+        <div data-theme="c" data-role="page" id="page_market_ret_cprofile_map">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Market Chemist Map</h3>
+            </div>
+			
+            <div data-role="content">
+			
+				<input name="desc" id="desc" placesholder="" value="" type="hidden">
+                <input name="c_point" id="c_point" placesholder="" value="" type="hidden">
+               
+                <div id="map-canvas" style="height:400px; width:500px"></div></td>
+
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+			
+		 </div><!--/page-->
+         
+<!--         ===================map page end===================-->
+
+<!--=====================market visit Page==================-->
+		<div data-theme="c" data-role="page" id="page_visit">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Chemist visit</h3>
+            </div>
+			
+            <div data-role="content">
+				<div id="myerror" style="color:#C00"></div>
+
+				<div><b></b><span class="market"></span></div>
+				<div><b></b><span class="visit_client" ></span></div>
+				
+				
+				
+				
+				
+				
+				
+				
+				
+              <a data-role="button"  class="ui-btn" style="text-align:center; " onClick="getOrder();" ><img src="order.png"></a>
+                 <div id="order_total_show" style=" color:#009191; font-weight:bold"></div>
+              
+				
+                <input name="chemist_feedback" id="chemist_feedback" type="text" maxlength="100" placeholder="Note">
+                
+                
+                
+                <br/>
+                <div id="errorChkVSubmit_1" style="color:#C00"></div>
+				<div id="errorChkVSubmit" style="color:#C00"></div>
+			<img src="" width="128" height="128" alt="" id="myImage" style="display:none">
+			<input name="lscPhoto" id="lscPhoto"   type="hidden">
+
+			<div id="delivery_date_div">
+			
+			<div id="delivery_date_div">
+				<input name="delivery_date" id="delivery_date" placeholder="Date" value="" type="date">
+			</div>
+			<div id="payment_date_div">
+				<input name="payment_date" id="payment_date" placeholder="Date" value="" type="date">
+			</div>
+			
+			<div id="payment_mode_div">
+			<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					  <tr>
+						<td>Payment Mode</td>
+						<td width="30%"> <label><input type="radio" name="paymentMode" id="paymentMode" value="Cash" checked>Cash</label></td>
+						<td width="30%"> <label><input type="radio" name="paymentMode" id="paymentMode"  value="Credit">Credit</label></td>
+					  </tr>
+			  </table>
+			</div>
+
+			<br/>
+            <br/>
+
+			<input type="hidden" name="lat" id="lat" >
+			<input type="hidden" name="longitude" id="longitude" ><!--readonly-->
+            
+			<div id="visit_location">
+			<a data-role="button" id="btn_location" onClick="getLocationInfo();" >Confirm Location</a>            
+            </div>
+			<br/>
+            <br/>
+            
+            <div id="checkLocation" style="color:#066"></div>
+            
+            
+           
+			<div id="visit_submit">
+           <a data-role="button" id="btn_visit_submit" onClick="visitSubmit();" >Submit</a>
+            </div>
+            
+            
+            
+            <br/>
+            <br/><br/>
+            <br/>
+            
+             
+            
+			<div align="center"><img id="wait_image_visit_submit" style="" width="50px;" src="loading.gif" alt=""></div>
+            
+            
+				
+				
+				
+				
+                <br/><br/><br/><br/><br/><br/>
+
+				
+                <br/>
+                
+            </div><!--/cont-->
+			
+			
+			<!--panel-->	
+            
+            <div data-theme="c" data-role="footer" data-position="fixed">
+            
+            &nbsp; <a data-role="button" id="btn_visit_save" onClick="visitSave();" >Save</a>
+            </div>
+			
+		 </div><!--/page-->
+<!--=================Doctor===========================-->
+<!--=====================market visit Page Doctor==================-->
+		<div data-theme="c" data-role="page" id="page_visit_doc">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Doctor visit</h3>
+            </div>
+			
+            <div data-role="content">
+				<div id="myerror" style="color:#C00">   </div>
+				<ul data-inset="true"  data-role="listview">
+					<li >
+						<div><b></b><span class="market"></span></div>
+						<div><b></b><span class="visit_client" ></span></div>
+					</li>
+				</ul>
+                <ul data-inset="true"  data-role="listview" class="ui-nodisc-icon ui-alt-icon">
+					
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getCampaign();" >Product</a></li>
+                    
+                    <div id="doc_campaign"></div>
+					<!--</br>-->
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getDoctorGift();" >Gift</a></li>
+					<!--</br>-->
+					<div id="doc_gift"></div>
+					<!--</br></br>-->
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium"><a data-role="button" class="ui-btn" style="text-align:center" onClick="getDoctorppm();" >PPM</a></li>
+					
+                    <div id="doc_ppm"></div>
+					
+                    <li style="border-bottom-style:solid; border-color:#CBE4E4;border-bottom-width:medium" ><a data-role="button" class="ui-btn" style="text-align:center" onClick="getDoctorSample();" >Sample</a></li>
+                   
+                    <div id="doc_sample"></div>
+                    
+					</br>
+                </ul>
+				
+				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					  <tr>
+						<td>Visited With</td>
+						<td width="30%"> <label><input type="radio" name="v_with" id="v_with" value="self" checked> Self</label></td>
+						<td width="30%"> <label><input type="radio" name="v_with" id="v_with"  value="supervisor">Supervisor</label></td>
+					  </tr>
+			  </table>
+
+		
+                </form>
+                
+                <input type="text" name="doc_feedback"  maxlength="50"  id="doc_feedback" placeholder="Feedback/Note"  >
+                
+				
+			            <br/>
+				 <div id="errorChkVSubmit_doc" style="color:#C00"></div>
+				<div id="checkLocation_doc" style="color:#066"></div>
+			
+
+			<a data-role="button" id="btn_location_doc" onClick="getLocationInfo();" >Confirm Location</a>            
+            
+			
+            
+           
+            
+			<div id="visit_submit_doc">
+            <a data-role="button" id="btn_visit_submit_doc" onClick="visitSubmit();" >Submit</a>
+            </div>
+            
+            <br/>
+            <br/>
+			<div align="center"><img id="wait_image_visit_submit_doc" style="" width="50px;" src="loading.gif" alt=""></div>
+				
+				
+				<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <br/><br/><br/><br/><br/><br/><br/>
+                
+            </div><!--/cont-->
+			
+			
+			<!--panel-->	
+			
+		 </div><!--/page-->
+         <!--=====================Doctor Campaign Page==================-->
+		 
+		 
+		 <div data-theme="c" data-role="page" id="page_doctor_campaign">
+            <div data-theme="c" data-role="header" data-position="fixed" data-tap-toggle="false">
+			
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="70%">
+					<form class="ui-filterable">
+					<input type="text" data-iconpos="right" name="campaign_combo_id" id="campaign_combo_id" data-type="search"  >
+					</form>
+					
+					</td>
+                    <td width="10%px"></td>
+                    <td align="right"><a style="height:20px; width:27px" data-role="button" onClick="getDocCampaignData();" ><img src="done.png"></a>&nbsp;&nbsp;</td>
+                  </tr>
+                </table>
+            </div>
+			
+            <div data-role="content" style="overflow:scroll">
+				<div id="myerror_doctor_campaign" style="color:#C00"></div>
+				<ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Doctor :</b><span class="visit_client" style="font-weight:bold"></span></div>                        
+					</li>					
+				</ul>
+				<br>
+                <br>
+				<div id="doctor_campaign_list_tbl"></div>
+				
+                <br>
+                <br>
+			  
+			
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+			
+            </div><!--/cont-->
+			
+			
+			<div data-theme="c" data-role="footer" data-position="fixed" align="left">
+            
+           &nbsp; <a data-role="button" href="#page_visit_doc"   ><img src="back.png"></a>
+            </div>
+			
+		 </div><!--/page-->
+		 
+		
+         
+    <!--=====================Doctor Gift Page==================-->
+		<div data-theme="c" data-role="page" id="page_doctor_gift">
+            <div data-theme="c" data-role="header" data-position="fixed" data-tap-toggle="false">
+			
+               <!-- <h3>Order</h3>-->
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <!--<td align="left"><a data-role="button" href="#page_visit"  ><img src="back.png"></a></td>-->
+                    <td width="70%">
+					<form class="ui-filterable">
+					<input type="text" data-iconpos="right" name="gift_combo_id" id="gift_combo_id" data-type="search"  >
+					</form>
+					
+					</td>
+                    <td width="10%px"><!--<a data-role="button" onClick="search_item_doctor_campaign();" style="height:15px" ><img src="search.png"></a>--></td>
+                    <td align="right"><a style="height:20px; width:27px" data-role="button" onClick="getDocGiftData();" ><img src="done.png"></a>&nbsp;&nbsp;</td>
+                  </tr>
+                </table>
+            </div>
+			
+            <div data-role="content" style="overflow:scroll">
+				<div id="myerror_doctor_gift" style="color:#C00"></div>
+				<ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Doctor :</b><span class="visit_client" style="font-weight:bold"></span></div>                        
+					</li>					
+				</ul>
+				<br>
+                <br>
+				<div id="doctor_gift_list_tbl">abc</div>
+				
+                <br>
+                <br>
+			  
+			
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+			
+            </div><!--/cont-->
+			
+			
+			<div data-theme="c" data-role="footer" data-position="fixed" align="left">
+            
+           &nbsp; <a data-role="button" href="#page_visit_doc"  ><img src="back.png"></a>
+            </div>
+			
+		 </div><!--/page-->
+         
+         <!--=====================Doctor PPM Page Start==================-->
+		 
+		<div data-theme="c" data-role="page" id="page_doctor_ppm">
+            <div data-theme="c" data-role="header" data-position="fixed" data-tap-toggle="false">
+			
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <!--<td align="left"><a data-role="button" href="#page_visit"  ><img src="back.png"></a></td>-->
+                    <td width="70%">
+					<form class="ui-filterable">
+					<input type="text" data-iconpos="right" name="ppm_combo_id" id="ppm_combo_id" data-type="search"  >
+					</form>
+					
+					</td>
+                    <td width="10%px"></td>
+                    <td align="right"><a style="height:20px; width:27px" data-role="button" onClick="getDocppmData();" ><img src="done.png"></a>&nbsp;&nbsp;</td>
+                  </tr>
+                </table>
+            </div>
+			
+            <div data-role="content" style="overflow:scroll">
+				<div id="myerror_doctor_ppm" style="color:#C00"></div>
+				<ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Doctor :</b><span class="visit_client" style="font-weight:bold"></span></div>                        
+					</li>					
+				</ul>
+				<br>
+                <br>
+				<div id="doctor_ppm_list_tbl"></div>
+				
+                <br>
+                <br>
+			  
+			
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+			
+            </div><!--/cont-->
+			
+			
+			<div data-theme="c" data-role="footer" data-position="fixed" align="left">
+            
+           &nbsp; <a data-role="button" href="#page_visit_doc"  ><img src="back.png"></a>
+            </div>
+			
+		 </div><!--/page-->
+        
+		<!-- ==========================Doctor ppm end====================-->
+		
+		
+		<div data-theme="c" data-role="page" id="page_doctor_sample">
+            <div data-theme="c" data-role="header" data-position="fixed" data-tap-toggle="false">
+			
+               <!-- <h3>Order</h3>-->
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <!--<td align="left"><a data-role="button" href="#page_visit"  ><img src="back.png"></a></td>-->
+                    <td width="70%">
+					<form class="ui-filterable">
+					<input type="text" data-iconpos="right" name="sample_combo_id" id="sample_combo_id" data-type="search"  >
+					</form>
+					
+					</td>
+                    <td width="10%px"></td>
+                    <td align="right"><a style="height:20px; width:27px" data-role="button" onClick="getDocSampleData();" ><img src="done.png"></a>&nbsp;&nbsp;</td>
+                  </tr>
+                </table>
+            </div>
+			
+            <div data-role="content" style="overflow:scroll">
+				<div id="myerror_doctor_sample" style="color:#C00"></div>
+				<ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Visit Type & Date:</b><span class="visit_type"></span>&nbsp;&nbsp;<span class="s_date"></span></div>						
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Doctor :</b><span class="visit_client" style="font-weight:bold"></span></div>                        
+					</li>					
+				</ul>
+				
+				<br>
+                <br>
+				<div id="doctor_sample_list_tbl"></div>
+				
+                <br>
+                <br>
+			  
+			
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+			
+            </div><!--/cont-->
+			
+			
+			<div data-theme="c" data-role="footer" data-position="fixed" align="left">
+            
+           &nbsp; <a data-role="button" href="#page_visit_doc"  ><img src="back.png"></a>
+            </div>
+			
+		 </div><!--/page-->
+<!--=========================== Profile =============-->
+<style>
+.prof_label{	
+	font-size:13px
+	}
+</style>
+<div data-theme="c" data-role="page" id="profile_update">
+  <div data-theme="c" data-role="header" data-position="fixed">
+    <a data-role="button" data-rel="back" data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+     <h3>Profile</h3>
+  </div>
+  
+  <div data-role="content"> 
+  	
+    <div align="right"><img src="" width="100%" height="150px" alt="Shop Photo" id="clientProfileImage"  style="display:none"></div>
+    
+  	<ul data-inset="true"  data-role="listview">
+        <li>
+            <div><b>Market :</b> <span class="prof_market_class"></span></div>
+            <div><b>Distributor :</b> <span class="prof_distributor_class"></span></div>
+            <div><b>Chemist ID :</b> <span class="prof_retailer_class" style="font-weight:bold"></span></div>
+        </li>					
+    </ul>
+    
+    <table width="100%">
+    	<tbody bgcolor="#BFDFDF">
+        <input type="hidden" name="" id="cp_marketid"  value="">
+        <input type="hidden" name="" id="cp_id"  value="" style="background-color:#EAEAEA" readonly>
+        
+    	<tr style="border-color: #F33"><td width="30%" class="prof_label" style="border-color: #F33">Name*</td><td>
+        <input type="text" name="" id="cp_name"  value="" style="background-color:#EAEAEA" readonly></td></tr>
+        <tr><td width="30%" class="prof_label">Address</td><td><input type="text" name="" id="cp_address"  value="" ></td></tr>        
+        <tr><td width="30%" class="prof_label" style="color:#C00">Contact 1*</td><td><input type="text" name="" id="cp_contact1"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Contact 2</td><td><input type="text" name="" id="cp_contact2"  value=""></td></tr>        
+        <td width="30%" class="prof_label"></tbody>
+        
+        <tbody bgcolor="#DAF3F3">
+        <tr style="background-color:#CCC"><td colspan="2"><strong>Shop Info:</strong></td></tr>
+        <tr><td width="30%" class="prof_label">Manager Name</td><td><input type="text" name="" id="cp_manager_name"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Manager Cont.No</td><td><input type="number" name="" id="cp_manager_cont_no"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">Starting Year</td><td><input type="number" name="" id="cp_starting_year"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label"><!--Category*--></td><td>
+        <input type="hidden" name="" id="cp_Category"  value="GENERAL">
+    
+        <input type="hidden" name="" id="cp_lsc_covered"  value="NO">
+        </td></tr>
+      
+        <tr><td width="30%" class="prof_label" style="color:#C00">Shop (Rented/Own)*</td><td>
+        <select name="cp_shop_rent_own" id="cp_shop_rent_own" data-native-menu="false">
+            <option value="" >Select</option>
+            <option value="Rented" >Rented</option>
+            <option value="Own" >Own</option>
+        </select>
+        </td></tr>
+       
+        <tr><td width="30%" class="prof_label"><!--Status*--></td><td>
+        <input type="hidden" name="cp_status" id="cp_status"  value="ACTIVE">
+       
+        </td></tr>               
+    	</tbody>
+        
+        <tbody bgcolor="#EAEBCF">        
+        <tr style="background-color:#CCC"><td colspan="2"><strong>Personal Info:</strong></td></tr>
+        <tr><td width="30%" class="prof_label" style="color:#C00">Owner Name*</td><td><input type="text" name="" id="cp_owner_name"  value=""></td></tr>
+        <tr><td width="30%" class="prof_label">DOB</td><td>
+        <input type="date" name="" id="cp_dob"  value="" placeholder="YYYY-MM-DD">
+        
+        <input type="hidden" name="" id="cp_nid"  value="">
+        <input type="hidden" name="" id="cp_Passport"  value="">
+        
+        <input type="hidden" name="" id="cp_dom"  value="" placeholder="YYYY-MM-DD">
+        <input type="hidden" name="" id="cp_kidsinfo"  value="">
+        <input type="hidden" name="" id="cp_hobby"  value="">
+        <input type="hidden" name="cp_trade_license" id="cp_trade_license"  value="YES">
+        <input type="hidden" name="" id="cp_trade_licence_no"  value="">
+        <input type="hidden" name="cp_vat_registration" id="cp_vat_registration"  value="YES">
+        <input type="hidden" id="cp_vat_reg_no"  value="">
+        </td></tr>
+        
+        
+
+   		</tbody>
+        
+  	</table>
+  	<br>
+	<br>
+	<div id="err_profile_next_cp" style="color:#C00"></div><br>
+    <br>
+	<a  data-role="button" onClick="prifileInfoNext();" >Next</a>	
+    
+    <br>
+	
+    <br>
+	<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+  </div>
+
+
+</div> 
+
+    <!-- -------------Confirm  Profile Update -------------------- -->
+	<div data-theme="c" data-role="page" id="page_confirm_profile_update" >
+		<div data-theme="c" data-role="header" data-position="fixed" >
+		<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " onClick="clear_mgs()"><img src="menu.png"></a>
+			<a data-role="button" data-rel="back" data-iconpos="left" class="ui-btn-right" data-transition="slide"><img src="back.png"></a>
+			<h3>Confirm Update</h3>
+	  </div>
+		<div data-role="content">
+			<div id="errorConfirmProfileUpdate" style="color:#C00"></div>
+			
+			   
+			<img src="" width="128" height="128" alt="" id="myImageProfile" style="display:none">
+			<input name="lscPhotoProfile" id="lscPhotoProfile" type="hidden">	
+            
+			<input type="hidden" name="lat_p" id="lat_p" >
+			<input type="hidden" name="long_p" id="long_p" ><!--readonly-->
+            
+           
+            
+			<a data-role="button" onClick="getLocationInfo();" >Confirm Location</a>
+			
+			<br/><br/>		
+            <div id="checkLocationProfileUpdate" style="color:#066;"></div>	
+			<a data-role="button" id="btn_profile_update" onClick="lscProfileSubmit();" >Submit</a>            
+            <div align="center"><img id="wait_image_profile_update" style="" width="50px;" src="loading.gif" alt=""></div>
+				
+			
+		</div>
+		
+		<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+	</div>
+
+<!-- ------------- Profile Update Success -------------------- -->
+	<div data-theme="c" data-role="page" id="page_profile_update_success" >
+		<div data-theme="c" data-role="header" data-position="fixed" >
+		<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " onClick="clear_mgs()"><img src="menu.png"></a>
+			<h3>Success</h3>
+	  </div>
+		<div data-role="content">
+        	<div>Profile Updated Successfully</div>
+        	
+            <a data-role="button" href="#page_market_clprofile" >Another Profile</a>
+			<br/>
+			<a data-role="button" href="#pageHome" >Home</a>
+			
+		</div>
+		
+		<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+	</div>
+ 
+
+       
+ 
+
+<!--=====================order Page==================-->
+		
+		<div data-theme="c" data-role="page" id="page_order" >
+            <div data-theme="c" data-role="header" data-position="fixed" data-tap-toggle="false">
+			
+                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <!--<td align="left"><a data-role="button" href="#page_visit"  ><img src="back.png"></a></td>-->
+                    <td width="50%"> 
+					<form class="ui-filterable">
+					<input id="item_combo_id" data-type="search"  placeholder="Search">  </form></td>
+                    <td width="10%px"></td>
+                   
+					 <td align="right"><a data-role="button" onClick="getOrderData()" ><img src="next.png"></a>&nbsp;&nbsp;</td>
+                  </tr>
+                </table>
+            </div>
+			
+            <div data-role="content" style="overflow:scroll">
+				<div id="myerror" style="color:#C00"></div>
+
+				
+				<div><b></b><span class="market"></span></div>
+				<div><b></b><span class="visit_client" ></span></div>
+				
+				
+				<div id="product_list_tbl">
+				
+				</div>
+				
+                <br>
+                <br>
+			
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+			
+            </div><!--/cont-->
+			
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+            
+           &nbsp; <a data-role="button" href="#page_visit"  ><img src="back.png"></a>
+            </div>
+			
+		 </div><!--/page-->
+
+
+<!--=====================cart Page==================-->
+		<div data-theme="c" data-role="page" id="page_cart">
+            <div data-theme="c" data-role="header" data-position="fixed">
+                <h3>Cart</h3>
+            </div>
+			
+            <div data-role="content" style="overflow:scroll" >
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td style=" color:#009191"> 
+                    <div><b></b><span class="market"></span></div>
+				   <div><b></b><span class="visit_client" ></span></div>
+                    </td>
+                    <td width="30px"><a  onClick="OrderData();"  href="#page_order" ><img src="edit.png"></a></td>
+                    <td>&nbsp;</td>
+                  </tr>
+              </table>
+				<div id="myerrorCart" style="color:#C00"></div>
+				
+                <br>
+                <br>
+				<div id="product_list_tbl_cart">
+
+				
+				</div>
+				
+                <br>
+                <br>
+                
+                <div id="product_total_cart" style=" color:#009191; font-weight:bold"></div>
+				
+				<div  style=" color:#009191; font-weight:bold">
+						<!--<input type="hidden" name="payment_mode" id="payment_mode" value="CASH" >-->
+			  </div>
+				
+                <br>
+                <br>
+
+             <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+               <td><a data-role="button"  onClick="cancel_cart();"  ><img src="cancel.png"></a></td>
+                <td>&nbsp;</td>
+                 <td><a data-role="button" onClick="payment_mode()"   ><img src="ok.png"></a></td>
+              </tr>
+            </table>
+			  
+			
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+            <br>                        
+            <br>
+            <br>            
+			<br>
+			
+            </div><!--/cont-->
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			</div>
+		 </div><!--/page-->
+
+ 
+     
+         
+	<!-- ------------- Visit Confirm  page -------------------- -->
+	<div data-theme="c" data-role="page" id="page_confirm" >
+		<div data-theme="c" data-role="header" data-position="fixed" >
+			<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " ><img src="menu.png"></a>
+			<a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right" data-transition="slide"><img src="back.png"></a>
+			<h3>Confirm Visit</h3>
+	  </div>
+		<div data-role="content">
+		
+			 <div><b></b><span class="market"></span></div>
+		    <div><b></b><span class="visit_client" ></span></div>
+			 <div id="product_total_last" style=" color:#009191; font-weight:bold"></div>
+		
+		
+            
+		</div>
+		
+		<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+	</div>
+	
+    <!-- ------------- Visit Success -------------------- -->
+	<div data-theme="c" data-role="page" id="page_confirm_visit_success" >
+		<div data-theme="c" data-role="header" data-position="fixed" >
+		<a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " onClick="clear_mgs()"><img src="menu.png"></a>
+			<h3>Success</h3>
+	  </div>
+		<div data-role="content" align="center">
+        	<div id="visit_success" style="background-image:url(result_back.png); background-repeat:no-repea; width:300px; height:200px; color:#FFF; font-size:20px;"  id="visit_result" align="center"></br></br></br>Submitted Successfully</div>
+
+            
+			<br/>
+			<a data-role="button" href="#page_market_ret" >Another</a>
+		</div>
+		
+<div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+	</div>
+
+
+
+
+<!-- ===================== Complain Page================== -->
+		<div data-theme="c" data-role="page" id="page_complain">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Complain</h3>
+            </div>
+			
+            <div data-role="content">	
+            	<div id="error_complain_page" style="color:#C00"></div>	
+                	
+				<a data-role="button" onClick="getComplain()" >New</a>
+				<a data-role="button" onClick="showComplain()" >Show</a>
+				
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>
+			
+		 </div><!--/page-->
+         
+         
+         <!-- ===================== Complain Page================== -->
+		<div data-theme="c" data-role="page" id="page_complain_show">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Feedback</h3>
+            </div>
+			
+            <div data-role="content">			
+				
+                <b>Feedback</b>
+                
+                <table id="tbl_show_complain"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>			
+		 </div><!--/page-->
+         
+         
+<!-- ===================== Complain New Page================== -->
+		<div data-theme="c" data-role="page" id="page_complain_new">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Feedback</h3>
+            </div>
+			
+            <div data-role="content">
+                <div id="error_complain" style="color:#C00"></div>    
+                <table width="100%">
+                    <tr><td>Feedback Type</td><td>
+                    <select name="complain_type_id" id="complain_type_id" data-native-menu="false">                        
+                    </select>                    
+                    </td></tr>
+                    
+                    
+                    <tr><td>Feedback</td><td>
+                    <textarea name="complain_ref" id="complain_ref" value="" ></textarea>
+                   </td></tr>
+                    
+                    <tr><td></td><td><input type="hidden" name="complain_details" id="complain_details"  value="">
+                    </td></tr>
+                    
+                </table>
+                
+                <a data-role="button" id="btn_complain_submit" onClick="complainSubmit();" >Submit</a>            
+            	<div align="center"><img id="wait_image_complain_submit" style="" width="50px;" src="loading.gif" alt=""></div>
+				
+                <br/><br/><br/><br/><br/><br/><br/>
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>			
+		 </div><!--/page-->
+		 
+         
+<!-- ------------- Complain Success -------------------- -->
+        <div data-theme="c" data-role="page" id="page_complain_success" >
+            <div data-theme="c" data-role="header" data-position="fixed" >
+            <a data-role="button" href="#pageHome"  class="ui-btn ui-shadow ui-corner-all ui-icon-bullets " onClick="clear_mgs()"><img src="menu.png"></a>
+                <h3>Success</h3>
+          </div>
+            <div data-role="content">
+                <div>Submitted Successfully</div>
+                
+                <a data-role="button" href="#page_complain" >Feedback</a>
+                <br/>
+                <a data-role="button" href="#pageHome" >Home</a>
+                
+            </div>
+            
+            <div data-theme="c" data-role="footer" data-position="fixed" style="font-size:12px;background-color:#CCC;" align="center" ></div>
+        </div>
+        
+<!-- ===================== Task Page================== -->
+		<div data-theme="c" data-role="page" id="page_task">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Task</h3>
+            </div>
+			
+            <div data-role="content">		
+				<div id="error_task_page" style="color:#C00"></div>	
+                
+				<a data-role="button" onClick="showTask()" >Show Task List</a>
+                
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+		
+        <!-- ===================== show Task Page================== -->
+		<div data-theme="c" data-role="page" id="page_task_show">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Task</h3>
+            </div>
+			
+            <div data-role="content">
+            	<div id="error_task_list" style="color:#C00"></div>	
+                
+				<b>Task</b>
+                
+                <table id="tbl_show_task"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                <br>
+				<div align="center"><img id="wait_image_task_submit" style="" width="50px;" src="loading.gif" alt=""></div>
+                
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed"></div>			
+		 </div><!--/page-->
+         
+         
+ <!-- ===================== Visit Repot ================== -->    	
+        <div data-theme="c" data-role="page" id="page_visit_rpt">
+            <div data-theme="c" data-role="header" data-position="fixed">			
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Visit-Report</h3>
+            </div>
+			
+            <div data-role="content">				
+				<div id="err_visit_rpt" style="color:#C00"></div>
+				 <input type="hidden" value="" id="retailerSales"/>
+        		 <input type="hidden" value="" id="retailerStock"/>
+        		
+                 <ul data-inset="true"  data-role="listview">
+					<li>
+						<div><b>Market :</b><span class="market"></span></div>
+                        <div><b>Distributor :</b><span class="visit_distributor"></span></div>
+                        <div><b>Chemist :</b><span class="visit_client" style="font-weight:bold"></span></div>
+					</li>					
+				</ul>
+                
+                <br/>
+				<a data-role="button" onClick="visitReport();">Show</a>				
+                
+                <br>
+                <div align="center"><img id="wait_image_visit_report" width="50px;" src="loading.gif" alt=""></div>
+				
+
+                
+                <table id="tbl_visit_rpt_show_campaign"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                
+                <br>                
+                <table id="tbl_visit_rpt_show_stock"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                
+                <div id="ChartDivRetStock" style="width:100%;height:300px"></div>
+               	
+                <br>                
+                <table id="tbl_visit_rpt_show_sales"  border="1" class="ui-body-d ui-shadow table-stripe ui-responsive" data-role="table" data-theme="d"  data-mode="display:none" style="cell-spacing:0px; width:100%; border-bottom:solid; border-bottom-color:#999"></table>
+                 
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>
+                 <br>          
+            </div><!--/cont-->		
+            
+		 </div><!--/page-->
+<!-- =====================end Visit Repot ================== -->
+	<div data-theme="c" data-role="page" id="page_reports">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Reports</h3>
+            </div>
+			
+            <div data-role="content">
+			
+				<div id="myerror" style="color:#C00"></div>               
+                              
+
+				
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+		
+		
+		
+		
+		
+		<!--==============Order report===============-->
+        
+		<div data-theme="c" data-role="page" id="page_reports_order">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Reports</h3>
+            </div>
+			
+            <div data-role="content">
+			
+				<div id="myerror" style="color:#C00"></div>               
+                              
+				
+
+<table width="100%" border="0">
+   <tr>
+    <td>Market: </td>
+    <td><input id="se_market" name="se_market" type="text" placeholder="Market"  ></td>
+    <td>&nbsp;&nbsp;Item: </td>
+    <td><input id="se_item" name="se_item" type="text" placeholder="Item"></td>
+  </tr>
+
+ <tr>
+    <td>Rep: </td>
+    <td><input id="se_mpo" name="se_mpo" type="text" placeholder="Rep"></td>
+    <td> </td>
+    <td></td>
+  </tr>	
+
+
+  <tr>
+    <td>From &nbsp;</td>
+    <td><input id="date_from" name="date_from" type="date" data-role="date" ></td>
+    <td>&nbsp;&nbsp;To &nbsp;</td>
+    <td><input id="date_to" name="date_to" type="date" data-role="date" ></td>
+  </tr>
+</table>
+
+				 
+				 
+				
+				<br/>
+				<a data-role="button" onClick="s_order_summary_report();">Sales Call and Order Summary</a>
+				<a data-role="button" onClick="s_order_detail_report();" >Sales Call and Order Detail</a>
+				<br/>
+			
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+		 
+		 
+		 
+		 
+		 <!--==============DCR report===============-->
+        
+		<div data-theme="c" data-role="page" id="page_reports_dcr">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Reports</h3>
+            </div>
+			
+            <div data-role="content">
+			
+				<div id="myerror" style="color:#C00"></div>               
+                              
+					<div id="report"> </div>
+					
+					<table width="100%" border="0">
+					  <tr>
+						<td>From &nbsp;</td>
+						<td><input id="date_from_doc" name="date_from_doc" type="date" data-role="date"  ></td>
+						</tr>	
+					
+					
+					  <tr>
+						<td>To &nbsp;</td>
+						<td><input id="date_to_doc" name="date_to_doc" type="date" data-role="date" ></td>
+					  </tr>
+					</table>
+
+				<br/>
+				<div id="doctor_report_button"> </div>
+				</br></br>
+				
+				<div id="order_report_button"> </div>
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			</div>
+		 </div><!--/page-->
+
+<!--==================page_report==================================-->
+
+		<div data-theme="c" data-role="page" id="page_sc_order_summary_report">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3><div id="report_header"> Sales Call and Order Count</div></h3>
+            </div>
+			
+            <div data-role="content">			
+				<div id="myerror_s_report" style="color:#C00"></div>               
+				<ul data-inset="true" data-role="listview">
+					<li>
+						
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							  <tr>
+								<td><div id="report_mpo">  </div></td>
+							
+							  </tr>
+                              
+                              <tr>
+								<td><div id="report_market" >  </div></td>
+							 </tr>
+							  <tr>
+								<td><div id="report_item" >  </div></td>
+							 </tr>
+							  
+							  <tr>
+								
+								<td><div id="date_f"> </div></td>
+							 </tr>
+							  <tr>	
+								<td> <div id="date_t">  </div></td>
+							 </tr>
+							</table>
+						
+										
+					</li>
+                   
+                    <div style='background-color:#00BFBF; height:5px; font-size:5px'></div>	
+					<li>
+                     
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							  <tr>
+								<td><div id="sales_call">  </div></td>
+							   </tr>
+							   <tr>
+								<td><div id="order_count">  </div></td>
+							   </tr>
+							   <tr>
+								<td><div id="order_value">  </div></td>
+							  </tr>
+							</table>
+					</li>
+                    
+					
+					<li>
+                    
+					
+					</li>						
+				</ul>
+				
+				
+				<div id="rep_detail" style="color:#000066"></div>
+				
+				
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+<!--==================page_report Doctor==================================-->
+
+		<div data-theme="c" data-role="page" id="page_report_doctor">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3><div id="report_header_doc"> DCR Summary</div></h3>
+            </div>
+			
+            <div data-role="content">			
+				<div id="myerror_s_report_doctor" style="color:#C00"></div>               
+				<ul data-inset="true" data-role="listview">
+					
+					<li>
+						
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+                          <tr>
+                            <td><div id="report_mpo_doctor">  </div></td>
+                          </tr>
+                           <tr>
+                            <td><div id="report_market_doctor" >  </div></td>
+                           </tr>
+                          <tr>
+                            <td><div id="date_f_doctor"> </div></td>
+							</tr>
+							  <tr>	
+								<td> <div id="date_t_doctor">  </div></td>
+								
+								
+							  </tr>
+							</table>
+						
+												
+					</li>
+                  <div style='background-color:#00BFBF; height:5px; font-size:5px'></div>
+					<li>
+					  			
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+							  <tr>
+								
+								<td><div id="visit_count_doctor">  </div></td>
+								 </tr>
+								 <tr>
+								<td><div id="visit_withAtt_doctor">  </div></td>
+								 </tr>
+								 <tr>
+								<td><div id="visit_withoutAtt_doctor">  </div></td>
+							  </tr>
+							</table>
+		
+					</li>
+						
+											
+				</ul>
+				
+				
+				<div id="rep_detail_doctor" style="color:#000066; font-size:10px; width:100%"></div>
+				
+				
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div><!--/page-->
+
+<!-- ===================== today status Page================== -->
+		<!--/page-->
+        
+        
+    <!-- ========================Visit Save Start=================-->   
+        
+    
+		<div data-theme="c" data-role="page" id="page_saved_visit">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3><div id="d_visit"> Saved Visit</div></h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">            	
+            	<div id="v_path" ><font style="font-weight:bold; font-size:13px; color:#666">Saved Visit</font></div><br>
+				
+			
+				<div id="err_save_visit" style="color:#C00"></div>
+                
+
+				<br/>
+                
+				
+                			
+               
+                <ul id="saved_visit" data-role="listview"  >
+                </ul>
+                
+				
+                
+                <br>
+				<br>
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+		 </div><!--/page-->
+			
+
+    <!--========================Visit page rnd====================-->
+        
+        
+
+    <script type="text/javascript" src="phonegap.js"></script>
+    
+    
+    </body>
+</html>

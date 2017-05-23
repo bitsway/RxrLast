@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!-- Designed and developed by Business Solution Apps team -->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>mReporting</title>
+		
+		<link rel="stylesheet" href="static/c.min.css" />
+		<link rel="stylesheet" href="static/jquery.mobile.icons.min.css" />
+		<link rel="stylesheet" href="static/jquery.mobile-1.4.5.min.css" />
+        
+        
+		<script src="static/jquery-2.1.3.min.js">   </script>
+        <script src="static/jquery.mobile-1.4.5.min.js"></script>
+        <script src="jquery.panzoom.js"></script>
+        <script src="jquery.mousewheel.js"></script>
+		<script src="static/survey.js"></script>		
+    	
+	
+
+	<style>
+	table.tbl_preview tr td { border:1px solid #5FAFAF; background-color:#EFF8F8;}
+	
+	.market {
+		font-size:16px;
+		color:#009191;
+		font-weight:600;
+   	 
+	}
+	.visit_client {
+		font-size:16px;
+		color:#009191;
+		font-weight:600;
+   	 
+	}
+	
+	#tt div{
+		height: 15px;
+		width: 5px;
+		}
+	#imgStyle img{
+			border: 3px solid #ffffff;
+			border-radius: 5px;
+			width:56px !important;
+			height:70px !important;
+		}	
+	 section { text-align: center; margin: 50px 0 0 0; }
+	.panzoom-parent { border: 2px solid #333; }
+	.panzoom-parent .panzoom { border: 2px dashed #666; }
+	/*.buttons { margin: 40px 0 0; }	*/
+	#appr div{background-color:#A0FAD3;}
+	#rej div{background-color:#ffb3b3;}
+	
+	</style>
+    
+	</head>
+
+	
+    <body>
+	
+		<!-- =====================Home page=============== -->
+		<div data-theme="c" data-role="page" id="pageHome">
+			<div data-role="panel" id="routePanel" data-display="overlay" style="width:60%; background-color:#FFF">
+				<div align="center">
+                <img src="cloud_menu_1.png">
+                <br>
+				</div>
+                
+				<br><br><br><br>
+                
+				<ul data-role="listview">                    
+                    <br><br>
+                    <div style="background:#008A8A; height:1px"></div>
+                    <li ><a href="#login" ><img src="sync.png"></a></li> 
+                    <div style="background:#008A8A; height:1px"></div>
+                </ul>
+                
+				<div style="margin:100%;"></div>
+			</div><!-- /panel -->
+			
+            <div data-theme="c" data-role="header" data-position="fixed" >			
+				<a  data-role="button" href="#routePanel" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+                <a  data-role="button" onClick="exit();" class="ui-btn-right" style="padding:4px;"><img src="exit.png" style="height:25px; width:25px;"></a>
+                
+               
+                <h3>mReporting</h3>
+            </div>
+            
+			<img style="width:100%;"  src="images_2.jpg">
+            <div data-role="content">
+				
+				<div id="myerror" style="color:#C00;">		
+				
+				
+				</div>
+				
+				
+				<div id="territory_list" >
+				
+				</div>
+                </div>	
+            </div>
+		
+
+	        <!--===================== pageSync ==================-->
+		<div data-theme="c" data-role="page" id="login">
+            <div data-theme="c" data-role="header" data-position="fixed">				
+				<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"> </a>
+                <h3>Authorization</h3>
+            </div>
+			
+            <div data-role="content">
+            	<div id="error_login" style="color:#C00"></div>                
+                    <form>		
+						<input name="cid" id="cid"  type="text" placeholder="CID" value="">			
+                        <input name="user_id" id="user_id"   type="text" placeholder="User ID" value="">
+                        <input type="number" name="user_pass" id="user_pass"  placeholder="Password" value="">
+                    </form>						
+				
+				<a data-role="button" id="loginButton" onClick="check_user();" >Sync</a>
+				<!--<div align="center"><img id="wait_image_login" style="" width="50px;" src="loading.gif" alt=""></div>-->
+                                
+                <br><br><br><br><br><br><br><br><br><br>
+                
+                <br><br><br><br><br><br>
+                <div  style="color:#CCCCCC"    align="right">V-3.0 B-150708</div>    
+            </div>
+			
+        <!-- ==========footer====== -->	
+        
+        </div>
+        
+        
+        
+        <div data-theme="c" data-role="page" id="page2">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>mReporting</h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">     
+				<ul data-inset="true" data-role="listview">
+                	<li style="text-align:center"><span style="font-weight:bold; font-size:16px; color:#666;">Prescription Count</span></li>
+                	<li>
+                    	<table border="0" cellpadding="0" cellspacing="0">
+                        	<tr>
+                            	<td>Territory ID:  </td>
+                            	<td><div id="terIdName"></div></td>
+                            </tr>
+                        </table>
+                    </li>
+					<li>			
+                        <table width="100%" style="border:1px solid #c2f0f0; font-size:15px;" cellpadding="0" cellspacing="0">
+                            <tr height="30">
+                                <td style="border:1px solid #c2f0f0">Today</td>
+                                <td colspan="2" style="border:1px solid #c2f0f0"><div id="todayCount"></div></td>
+                            </tr>
+                            <tr height="30">
+                                <td style="border:1px solid #c2f0f0">Yesterday</td>
+                                <td colspan="2" style="border:1px solid #c2f0f0"><div id="yesterdayCount"></div></td>
+                            </tr>
+                            <tr height="30">
+                                <td style="border:1px solid #c2f0f0">This Month</td>
+                                <td colspan="2" style="border:1px solid #c2f0f0"><div id="monthCount"></div></td>
+                            </tr>
+                            <tr height="30">
+                                <td style="border:1px solid #c2f0f0">Pending</td>
+                                <td style="border:1px solid #c2f0f0"><div id="pendingCount"></div></td>
+                                <td style="border:1px solid #c2f0f0;" id="tt" ><input class="ui-mini" type="button" id="btn" onClick="pendingBtn()" value=">" ></td>
+                            </tr>
+                        </table>
+                	</li>
+                </ul>
+                
+                
+                <br/><br/>
+               <!-- <div align="center"><img id="wait_image_unschedule_market" style="" width="50px;" src="loading.gif" alt=""></div>-->
+                    
+                    
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div>
+         
+         
+         
+         
+         <div data-theme="c" data-role="page" id="page3">
+            <div data-theme="c" data-role="header" data-position="fixed">
+			<a  data-role="button" href="#pageHome" class="ui-btn-left ui-btn-icon-notext" onClick="clear_mgs()"><img src="menu.png"></a>
+            <a data-role="button" data-rel="back"  data-iconpos="left" class="ui-btn-right"><img src="back.png"></a>
+                <h3>Rx Image</h3>
+            </div>
+			
+            <div data-role="content" style="margin-top:0px; padding-top:0px;">   
+            <br>
+				<!--<ul data-inset="true" data-role="listview">
+                	<li style="text-align:center"><span style="font-weight:bold; font-size:16px; color:#666;">Prescription Image</span></li>
+                	<li>-->
+                    	<table border="0" cellpadding="0" cellspacing="0">
+                        	<tr>
+                            	<td>Territory ID:  </td>
+                            	<td><div id="terIdNameApp"></div></td>
+                            </tr>
+                        </table>
+                   <!-- </li>
+					<li>	-->	
+                    <br>                          
+                          <section style="margin:0; padding:0 !important">
+                              <div class="parent">
+                                <div class="panzoom">
+                                  <div id="pendingImage"></div>
+                                  <!--background-color:#A0FAD3-->
+                                </div>
+                              </div>
+                              <div class="buttons">                                                                 
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td><button class="zoom-in">+</button></td>
+                                        <td width="10"></td>
+                                        <td align="right"><button class="zoom-out">-</button></td>
+                                    </tr>
+                                     <tr>
+                                    	<td colspan="3" align="left">Prescription Details</td>
+                                    </tr>
+                                    <tr>
+                                    	<td colspan="3"><div id="medicineID"></div></td>
+                                    </tr>
+                                     <tr>
+                                        <td  colspan="3" id="appr"><input type="button" value="Approve" onClick="approve()" ></td>
+                                    </tr>
+                                </table>
+                              </div>
+                              <script>
+                                (function() {					
+                                  var $section = $('section').first();
+                                  $section.find('.panzoom').panzoom({
+                                    $zoomIn: $section.find(".zoom-in"),
+                                    $zoomOut: $section.find(".zoom-out"),
+                                    $zoomRange: $section.find(".zoom-range"),
+                                    $reset: $section.find(".reset")
+                                  });
+                                })();
+                              </script>
+                            </section>
+                          <br>
+                          <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td >
+                                	<select id="rejectCause" data-native-menu="false">
+                                    	<option value="0">Select</option>
+                                    	<option value="1">1.Image Not Avaliable</option>
+                                        <option value="2">2.Can't Identify Doctor</option>
+                                        <option value="3">3.Duplicate Prescription</option>
+                                        <option value="4">4.Image Not Clear</option>
+                                        <option value="5">5.Others</option>  
+                                    </select>
+                                </td>                                
+                            </tr>
+                            <tr>
+                            	<td id="rej"><input type="button" id="reject_btn" value="Reject" onClick="reject()"></td>
+                            </tr>
+                        </table>
+                        <div align="center"><img id="wait_image_login" width="50px;" src="loading.gif" alt=""></div>
+                        <div id="error" style="color:#F00"></div>
+                	<!--</li>
+                </ul>-->
+                
+                
+                <br/><br/>
+                    
+            </div><!--/cont-->
+			
+			<div data-theme="c" data-role="footer" data-position="fixed">
+			
+			</div>
+			
+		 </div>
+        
+        		
+        
+
+    <script type="text/javascript" src="phonegap.js"></script>
+    
+    
+    </body>
+</html>

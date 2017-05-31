@@ -25,7 +25,7 @@ function check_user() {
 	var cid=$("#cid").val().toUpperCase();
 	cid=$.trim(cid);
 
-	//var  apipath_base_photo_dm='http://127.0.0.1:8000/mrepbiopharma/syncmobile_prescription_20170523/dmpath?CID='+cid +'&HTTPPASS=e99business321cba'
+	//var  apipath_base_photo_dm='http://127.0.0.1:8000/mrepbiopharma/syncmobile_prescription_rxr/dmpath?CID='+cid +'&HTTPPASS=e99business321cba'
 	
 	var apipath_base_photo_dm='http://e2.businesssolutionapps.com/mrepbiopharma/syncmobile_prescription_rxr/dmpath?CID='+cid +'&HTTPPASS=e99business321cba'
   //var apipath_base_photo_dm ='http://e2.businesssolutionapps.com/welcome/dmpath_live_20150502/get_path?CID='+cid +'&HTTPPASS=e99business321cba'
@@ -56,9 +56,9 @@ function check_user() {
 		localStorage.photo_url='';
 		localStorage.photo_submit_url='';*/
 		
-		//alert(apipath_base_photo_dm);
-		$("#loginButton").hide();
-		//$("#wait_image_login").show();
+		//alert(apipath_base_photo_dm);	
+		$("#loginButton").hide();	
+		$("#wait_image_login").show();
 		
 		//----
 		//$("#error_login").html(apipath_base_photo_dm);
@@ -80,8 +80,8 @@ function check_user() {
 					var resultArray = localStorage.urlResult.split('<fd>');		
 					if(resultArray.length==3){
 						localStorage.base_url=resultArray[0]
-						//photo_url=resultArray[1]
-						//photo_submit_url=resultArray[2]
+						photo_url=resultArray[1]
+						photo_submit_url=resultArray[2]
 						
 						//-------------
 						if(localStorage.base_url==''){	
@@ -89,9 +89,10 @@ function check_user() {
 							$("#loginButton").show();
 							$("#error_login").html('Base URL not available');	
 						}else{
-							//--------------------------
+							//--------------------------							
 							$("#error_login").html("");		
 							$("#loginButton").hide();
+							$("#wait_image_login").show();
 							
 							localStorage.cid=cid;
 							localStorage.user_id=user_id;
@@ -115,13 +116,12 @@ function check_user() {
 												if (localStorage.syncArray=='FAILED'){
 													$("#wait_image_login").hide();
 													$("#loginButton").show();								
-													//$("#error_login").html(resultArray[1]);
+													$("#error_login").html("Invalid Authorization");
 													
 												}else if (localStorage.syncArray=='SUCCESS'){
 													
 													localStorage.territoryListStr=resultArray[1];
 																	
-												
 												//	==============Territory List================\
 												
 												var territoryList=localStorage.territoryListStr.split('<rd>');
@@ -140,6 +140,9 @@ function check_user() {
 												 						
 												$('#territory_list').empty();
 												$('#territory_list').append(territory_str).trigger('create');
+																								
+												$("#wait_image_login").hide();
+												$("#loginButton").show();
 												
 												 var url = "#pageHome";
 										 		 $.mobile.navigate(url);	
@@ -147,10 +150,17 @@ function check_user() {
 																								
 													$("#wait_image_login").hide();
 													$("#loginButton").show();
-													$("#error_login").html('Network Timeout. Please try again.');							
+													$("#error_login").html('Network Timeout. Please try again.');	
+													}
 												}
-											}
-											
+											},
+									  error: function(result) {					 
+										  $("#wait_image_login").hide();
+										  $("#loginButton").show();
+										  $("#error_login").html('Network Timeout. Please try again.');
+										  
+										  var url = "#login";
+										  $.mobile.navigate(url);	
 										  }
 								  });//end ajax
 								}//base url check
@@ -180,7 +190,7 @@ function check_user() {
 
 
 function teWisePres(teId){
-	
+	$("#wait_image_data").show();
 	localStorage.territoryID=teId;
 	//alert(localStorage.base_url+'territory_wise_prescription?cid='+localStorage.cid+'&terriID='+localStorage.territoryID);
 	$.ajax({
@@ -188,9 +198,13 @@ function teWisePres(teId){
 		 url: localStorage.base_url+'territory_wise_prescription?cid='+localStorage.cid+'&terriID='+localStorage.territoryID,
 		 success: function(result) {
 				localStorage.result=result;
-				var resultArray = localStorage.result.split('<fd>');											
-				if (resultArray[0]=='SUCCESS'){
-					
+				var resultArray = localStorage.result.split('<fd>');
+				if(resultArray[0]!='SUCCESS'){
+					$("#wait_image_data").hide();
+				    $("#myerror").html('Network  Timeout. Please Check Internet Connection');	
+										
+				}else if (resultArray[0]=='SUCCESS'){
+										
 					localStorage.todayCount=resultArray[1];
 					localStorage.yesterdayCount=resultArray[2];
 					localStorage.monthCount=resultArray[3];
@@ -200,13 +214,14 @@ function teWisePres(teId){
 					$("#yesterdayCount").html(localStorage.yesterdayCount);
 					$("#monthCount").html(localStorage.monthCount);
 					$("#pendingCount").html(localStorage.pendingCount);
-					
 					$("#pendingCount").val(localStorage.pendingCount);
-					
 					$("#terIdName").html(localStorage.territoryID);
+					
+					$("#wait_image_data").hide();
 					
 					var url = "#page2";
 					$.mobile.navigate(url);	
+					
 				}
 		 }
 	})
@@ -217,7 +232,9 @@ function teWisePres(teId){
 //http://107.167.187.177/biopharma_image/static/prescription_pic/Kst-130_1491392280278.jpg
 
 function pendingBtn(){ 
-	$("#terIdNameApp").html(localStorage.territoryID);   
+	$("#tt div").hide();
+	$("#wait_image_pending").show();
+	
 	var pendingCount=$("#pendingCount").val();
 	//alert(pendingCount);
 	//alert(localStorage.base_url+'pending_prescription?cid='+localStorage.cid+'&territoryID='+localStorage.territoryID);
@@ -227,13 +244,19 @@ function pendingBtn(){
 		 success: function(result) {
 				
 				var resultArray = result.split('<fd>');											
-				if (resultArray[0]=='SUCCESS'){
+				if (resultArray[0]!='SUCCESS'){
+					$("#wait_image_pending").hide();
+				    $("#myerror").html('Network  Timeout. Please Check Internet Connection');	
 					
+		 		}else if (resultArray[0]=='SUCCESS'){	
 					localStorage.presHeadId=resultArray[1];
 					var presHeadSL=resultArray[2];
 					localStorage.pendingImage=resultArray[3];
-					localStorage.medStr=resultArray[4];
-										
+					localStorage.submit_date=resultArray[4];
+					localStorage.medStr=resultArray[5];
+					
+					$("#terIdNameApp").html(localStorage.territoryID+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+localStorage.submit_date);   
+									
 					$("#pendingImage").html("<img style='width:100%;' src='http://107.167.187.177/biopharma_image/static/prescription_pic/"+localStorage.pendingImage+"'/>");
 					
 					var medList=localStorage.medStr.split('<rd>');
@@ -253,21 +276,34 @@ function pendingBtn(){
 					$('#medicineID').empty();
 					$('#medicineID').append(med_str).trigger('create');
 					
+					$("#tt div").show();
+					$("#wait_image_pending").hide();
 					
-				}else{
-					$("#error").text("Please Check Your Network Connection");
+					$("#wait_image_show").hide();
+					$("#appr div").show();
+					$("#sel div").show();
+					$("#rej div").show();
+					
+					var url = "#page3";
+					$.mobile.navigate(url);	
 				}
 		 }
 	})
 		 
-	var url = "#page3";
-	$.mobile.navigate(url);	
+	
 };
 
 
+function reloadPage(){
+	location.reload();
+}
+
+
 function approve(){
-	$("#reject_btn").hide();
-	$("#wait_image_login").show();
+	$("#appr div").hide();
+	$("#rej div").hide();
+	$("#sel div").hide();
+	$("#wait_image_show").show();
 	//alert(localStorage.base_url+'approvePrescription?cid='+localStorage.cid+'&territoryID='+localStorage.territoryID+'&id='+localStorage.presHeadId);
 	$.ajax({
 		 type: 'POST',
@@ -278,10 +314,8 @@ function approve(){
 				if (result=='SUCCESS'){
 					$("#error").text("");
 					
-					pendingBtn();
+					pendingBtn();					
 					
-					$("#reject_btn").show();
-					$("#wait_image_login").hide();
 				}else{
 					$("#error").text("Please Check Your Network Connection");
 				}
@@ -294,9 +328,11 @@ function reject(){
 	if(rejectCause=='' || rejectCause==0){
 		$("#error").text("Please Select Value")
 	}else{
-		
-		$("#reject_btn").hide();
-		$("#wait_image_login").show();
+		$("#error").text("")
+		$("#appr div").hide();
+		$("#rej div").hide();
+		$("#sel div").hide();
+		$("#wait_image_show").show();
 		
 		$.ajax({
 			 type: 'POST',
@@ -309,8 +345,6 @@ function reject(){
 						
 						pendingBtn();
 						
-						$("#reject_btn").show();
-						$("#wait_image_login").hide();
 					}else{
 						$("#error").text("Please Check Your Network Connection");
 					}
@@ -324,6 +358,10 @@ function reject(){
 
 $(document).ready(function(){
 	$("#wait_image_login").hide();
+	$("#wait_image_data").hide();
+	$("#wait_image_pending").hide();
+	$("#wait_image_show").hide();
+	
 	
 	$('#territory_list').empty();
 		
@@ -333,7 +371,7 @@ $(document).ready(function(){
 	$("#pendingCount").html(localStorage.pendingCount);	
 	$("#pendingCount").val(localStorage.pendingCount);	
 	$("#terIdName").html(localStorage.territoryID);
-	$("#terIdNameApp").html(localStorage.territoryID);   
+	$("#terIdNameApp").html(localStorage.territoryID+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+localStorage.submit_date);      
 	
 	
 	var territoryList=localStorage.territoryListStr.split('<rd>');
@@ -357,6 +395,7 @@ $(document).ready(function(){
 	//=====================
 	
 	$("#pendingImage").html("<img style='width:100%;' src='http://107.167.187.177/biopharma_image/static/prescription_pic/"+localStorage.pendingImage+"'/>");
+	
 					
 	var medList=localStorage.medStr.split('<rd>');
 									
@@ -375,7 +414,7 @@ $(document).ready(function(){
 	$('#medicineID').empty();
 	$('#medicineID').append(med_str).trigger('create');
 	
-	$("#wait_image_login").hide();
+	$("#wait_image_show").hide();
 	$("#reject_btn").show();			
 	
 })

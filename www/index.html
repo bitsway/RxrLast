@@ -90,15 +90,13 @@
 			<img style="width:100%;"  src="images_2.jpg">
             <div data-role="content">
 				
-				<div id="myerror" style="color:#C00;">		
+				<div id="myerror" style="color:#C00;"></div>
 				
-				
-				</div>
-				
-				
-				<div id="territory_list" >
-				
-				</div>
+				<div id="territory_list" ></div>
+                
+                <br/><br/>
+                <div align="center"><img id="wait_image_data" style="" width="50px;" src="loading.gif" alt=""></div>
+                
                 </div>	
             </div>
 		
@@ -119,12 +117,12 @@
                     </form>						
 				
 				<a data-role="button" id="loginButton" onClick="check_user();" >Sync</a>
-				<!--<div align="center"><img id="wait_image_login" style="" width="50px;" src="loading.gif" alt=""></div>-->
+				<div align="center"><img id="wait_image_login" style="" width="50px;" src="loading.gif" alt=""></div>
                                 
                 <br><br><br><br><br><br><br><br><br><br>
                 
                 <br><br><br><br><br><br>
-                <div  style="color:#CCCCCC"    align="right">V-3.0 B-150708</div>    
+                <div  style="color:#CCCCCC"    align="right">V-3.0 B-170601</div>    
             </div>
 			
         <!-- ==========footer====== -->	
@@ -146,7 +144,7 @@
                 	<li>
                     	<table border="0" cellpadding="0" cellspacing="0">
                         	<tr>
-                            	<td>Territory ID:  </td>
+                            	<td>Territory:  </td>
                             	<td><div id="terIdName"></div></td>
                             </tr>
                         </table>
@@ -176,7 +174,7 @@
                 
                 
                 <br/><br/>
-               <!-- <div align="center"><img id="wait_image_unschedule_market" style="" width="50px;" src="loading.gif" alt=""></div>-->
+                <div align="center"><img id="wait_image_pending" style="" width="50px;" src="loading.gif" alt=""></div>
                     
                     
             </div><!--/cont-->
@@ -204,8 +202,9 @@
                 	<li>-->
                     	<table border="0" cellpadding="0" cellspacing="0">
                         	<tr>
-                            	<td>Territory ID:  </td>
+                            	<td>Territory:  </td>
                             	<td><div id="terIdNameApp"></div></td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a onClick="reloadPage()"><img src="refresh.ico" style="width:15px; cursor:pointer;"></a></td>
                             </tr>
                         </table>
                    <!-- </li>
@@ -232,7 +231,7 @@
                                     	<td colspan="3"><div id="medicineID"></div></td>
                                     </tr>
                                      <tr>
-                                        <td  colspan="3" id="appr"><input type="button" value="Approve" onClick="approve()" ></td>
+                                        <td  colspan="3" id="appr"><input type="button" id="Approved" value="Approve" onClick="approve()" ></td>
                                     </tr>
                                 </table>
                               </div>
@@ -251,14 +250,15 @@
                           <br>
                           <table width="100%" cellpadding="0" cellspacing="0">
                             <tr>
-                                <td >
+                                <td  id="sel">
                                 	<select id="rejectCause" data-native-menu="false">
                                     	<option value="0">Select</option>
                                     	<option value="1">1.Image Not Avaliable</option>
-                                        <option value="2">2.Can't Identify Doctor</option>
-                                        <option value="3">3.Duplicate Prescription</option>
-                                        <option value="4">4.Image Not Clear</option>
-                                        <option value="5">5.Others</option>  
+                                        <option value="2">2.Product Miss-Match</option>
+                                        <option value="3">3.Can't Identify Doctor</option>
+                                        <option value="4">4.Duplicate Prescription</option>
+                                        <option value="5">5.Image Not Clear</option>
+                                        <option value="6">6.Others</option>  
                                     </select>
                                 </td>                                
                             </tr>
@@ -266,7 +266,7 @@
                             	<td id="rej"><input type="button" id="reject_btn" value="Reject" onClick="reject()"></td>
                             </tr>
                         </table>
-                        <div align="center"><img id="wait_image_login" width="50px;" src="loading.gif" alt=""></div>
+                        <div align="center"><img id="wait_image_show" width="50px;" src="loading.gif" alt=""></div>
                         <div id="error" style="color:#F00"></div>
                 	<!--</li>
                 </ul>-->
